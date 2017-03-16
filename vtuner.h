@@ -19,6 +19,7 @@
 #ifndef _VTUNER_H_
 #define _VTUNER_H_
 
+#include <linux/ioctl.h>
 #include <linux/dvb/version.h>
 #include <linux/dvb/frontend.h>
 #include <linux/dvb/dmx.h>
@@ -112,6 +113,16 @@ struct vtuner_message
 
 #define VTUNER_MAJOR		226
 
+#if _IOC_NONE == 0
+/*#define PVR_FLUSH_BUFFER	_IO(VTUNER_MAJOR, 10)*/
+#define VTUNER_GET_MESSAGE	_IOR(VTUNER_MAJOR, 11, struct vtuner_message *)
+#define VTUNER_SET_RESPONSE 	_IOW(VTUNER_MAJOR, 12, struct vtuner_message *)
+#define VTUNER_SET_NAME		_IOW(VTUNER_MAJOR, 13, char *)
+#define VTUNER_SET_TYPE		_IOW(VTUNER_MAJOR, 14, char *)
+#define VTUNER_SET_FE_INFO	_IOW(VTUNER_MAJOR, 16, struct dvb_frontend_info *)
+#define VTUNER_SET_NUM_MODES	_IOW(VTUNER_MAJOR, 17, int)
+#define VTUNER_SET_MODES	_IOW(VTUNER_MAJOR, 18, char *)
+#else
 /*#define PVR_FLUSH_BUFFER	_IO(VTUNER_MAJOR, 0)*/
 #define VTUNER_GET_MESSAGE	_IOR(VTUNER_MAJOR, 1, struct vtuner_message *)
 #define VTUNER_SET_RESPONSE 	_IOW(VTUNER_MAJOR, 2, struct vtuner_message *)
@@ -120,8 +131,6 @@ struct vtuner_message
 #define VTUNER_SET_FE_INFO	_IOW(VTUNER_MAJOR, 6, struct dvb_frontend_info *)
 #define VTUNER_SET_NUM_MODES	_IOW(VTUNER_MAJOR, 7, int)
 #define VTUNER_SET_MODES	_IOW(VTUNER_MAJOR, 8, char *)
-
 #endif
 
-
-
+#endif // _VTUNER_H_
